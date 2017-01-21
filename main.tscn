@@ -1,0 +1,140 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://main.gd" type="Script" id=1]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends Control\n\nfunc _draw():\n\t"
+
+[sub_resource type="ColorRamp" id=2]
+
+offsets = FloatArray( 0, 0.341772, 1 )
+colors = ColorArray( 1, 0.979645, 0.886719, 1, 0.859375, 0.797744, 0.691528, 1, 0.914062, 0.535583, 0, 1 )
+
+[node name="game" type="Node2D"]
+
+script/script = ExtResource( 1 )
+
+[node name="left" type="Polygon2D" parent="."]
+
+polygon = Vector2Array( -200, 0, 100, 0, 100, 600, -200, 600 )
+uv = Vector2Array(  )
+color = Color( 1, 0, 0, 1 )
+vertex_colors = ColorArray(  )
+offset = Vector2( -100, 0 )
+texture/texture = null
+texture/offset = Vector2( 0, 0 )
+texture/scale = Vector2( 1, 1 )
+texture/rotation = 0.0
+invert/enable = false
+invert/border = 100.0
+
+[node name="right" type="Polygon2D" parent="."]
+
+transform/pos = Vector2( 300, 0 )
+polygon = Vector2Array( 0, 0, 300, 0, 300, 600, 0, 600 )
+uv = Vector2Array(  )
+color = Color( 0, 0.203125, 1, 1 )
+vertex_colors = ColorArray(  )
+offset = Vector2( 0, 0 )
+texture/texture = null
+texture/offset = Vector2( 0, 0 )
+texture/scale = Vector2( 1, 1 )
+texture/rotation = 0.0
+invert/enable = false
+invert/border = 100.0
+
+[node name="Control" type="Control" parent="."]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 200.0
+margin/bottom = 600.0
+script/script = SubResource( 1 )
+
+[node name="Button" type="Button" parent="Control"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 100.0
+margin/top = 200.0
+margin/right = 200.0
+margin/bottom = 230.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "Start"
+flat = false
+
+[node name="ScoreLabel" type="Label" parent="Control"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 125.0
+margin/top = 0.0
+margin/right = 175.0
+margin/bottom = 14.0
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="GameOverLabel" type="Label" parent="Control"]
+
+visibility/visible = false
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 250.0
+margin/right = 300.0
+margin/bottom = 300.0
+text = "Game Over"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="end_explosion" type="Particles2D" parent="."]
+
+transform/pos = Vector2( 150, 300 )
+config/amount = 800
+config/lifetime = 3.4
+config/emit_timeout = 0.1
+config/emitting = false
+config/explosiveness = 0.01
+params/direction = 0.0
+params/spread = 180.0
+params/linear_velocity = 350.0
+params/spin_velocity = 40.0
+params/orbit_velocity = 0.1
+params/gravity_direction = 0.0
+params/gravity_strength = 19.69
+params/radial_accel = 35.45
+params/tangential_accel = 8.86
+params/damping = 15.0
+params/initial_angle = 0.0
+params/initial_size = 1.0
+params/final_size = 8.0
+params/hue_variation = 0.92
+params/anim_speed_scale = 1.97
+params/anim_initial_pos = 0.0
+randomness/direction = 0.48
+randomness/spread = 0.72
+randomness/linear_velocity = 0.4
+randomness/damping = 1.0
+randomness/final_size = 1.0
+color/color_ramp = SubResource( 2 )
+
+[connection signal="pressed" from="Control/Button" to="." method="_on_Button_pressed"]
+
+
