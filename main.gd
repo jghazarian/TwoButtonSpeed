@@ -10,6 +10,8 @@ const SPEED_MULTIPLIER = 1.3
 var current_speed
 var current_multiplier
 var playing = false
+#var constant_sample
+#var constant_id
 
 func _ready():
 	score = 0
@@ -31,6 +33,11 @@ func startGame():
 	get_node("Control/Button").set_hidden(true)
 	playing = true
 	get_node("Control/GameOverLabel").set_hidden(true)
+	get_node("StreamPlayer").play()
+	#get_node("StreamPlayer").set_volume(1.0)
+	#var constant_sample = get_node("SamplePlayer").get_sample_library().get_sample("constant1").get_rid()
+	#AudioServer.voice_play(AudioServer.voice_create(), constant_sample)
+	#constant_id = get_node("SamplePlayer").play("constant2")
 
 func endGame():
 	playing = false
@@ -38,6 +45,9 @@ func endGame():
 	get_node("Control/Button").set_hidden(false)
 	get_node("end_explosion").set_emitting(true)
 	get_node("Control/GameOverLabel").set_hidden(false)
+	#get_node("SamplePlayer").stop(constant_id)
+	get_node("SamplePlayer").play("explosion")
+	get_node("StreamPlayer").stop()
 
 func _input(event):
 	var left_pos = get_node("left").get_pos()
@@ -45,12 +55,9 @@ func _input(event):
 	if ((event.is_action_pressed("hit_left") or (event.type == InputEvent.SCREEN_TOUCH and event.pressed == true)) and not event.is_echo()):
 		if (left_pos.x < 0):
 			endGame()
-			var xx = 82.82
-			print(str(round(xx)))
 		else:
 			left_pos.x = -randf() * 100
 			current_multiplier *= SPEED_MULTIPLIER
-			#current_speed *= SPEED_MULTIPLIER
 			current_speed = log(current_multiplier) * BASE_SPEED
 			get_node("left").set_pos(left_pos)
 	if (event.is_action_pressed("hit_right") and not event.is_echo()):
@@ -83,6 +90,10 @@ func _process(delta):
 		
 		score += 1 * delta
 		get_node("Control/ScoreLabel").set_text(str(score).pad_decimals(1))
+		var distance = get_node("right").get_pos().x - get_node("left").get_pos().x
+		var volume = max(0.12, min(55.0 / distance, 1.0))
+		get_node("StreamPlayer").set_volume(volume)
+		#get_node("SamplePlayer").set_volume(constant_id, volume)
 
 func _on_Button_pressed():
 	startGame()
